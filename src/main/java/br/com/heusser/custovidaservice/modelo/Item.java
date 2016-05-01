@@ -1,11 +1,21 @@
 package br.com.heusser.custovidaservice.modelo;
 
+import java.util.List;
+
+import br.com.heusser.custovidaservice.dao.core.DAOFactory;
+import br.com.heusser.custovidaservice.dao.item.ItemDAO;
+
 public class Item {
 
 	private int itemid;
 	private String identificador;
 	private String descricao;
 	private Produto produto;
+	
+	public static List<Item> getItens(){
+		ItemDAO dao = DAOFactory.getInstance().getItemDAO();
+		return dao.listar();
+	}
 	
 	public int getItemid() {
 		return itemid;

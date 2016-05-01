@@ -1,6 +1,5 @@
 package br.com.heusser.custovidaservice.dao.mysql;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -14,8 +13,8 @@ public class Conexao {
 		Properties prop = new Properties();
 		InputStream input = null;
 		try {
-			String filename = "database.properties";
-			input = new FileInputStream("./" + filename);
+			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			input = classLoader.getResourceAsStream("database.properties");
 			prop.load(input);
 			String driver = prop.getProperty("driver");
 			String url = prop.getProperty("url");
