@@ -1,6 +1,10 @@
 package br.com.heusser.custovidaservice.modelo;
 
 import java.util.Date;
+import java.util.List;
+
+import br.com.heusser.custovidaservice.dao.core.DAOFactory;
+import br.com.heusser.custovidaservice.dao.pesquisa.PesquisaDAO;
 
 public class Pesquisa {
 
@@ -88,6 +92,10 @@ public class Pesquisa {
 	}
 	public void setFonte(Fonte fonte) {
 		this.fonte = fonte;
+	}
+	public static List<Pesquisa> listar(int usuarioid, int fonteid) {
+		PesquisaDAO dao = DAOFactory.getInstance().getPesquisaDAO();
+		return dao.listar(usuarioid, fonteid);
 	}
 	
 }

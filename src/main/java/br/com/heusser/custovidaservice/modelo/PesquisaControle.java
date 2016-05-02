@@ -2,6 +2,9 @@ package br.com.heusser.custovidaservice.modelo;
 
 import java.util.Date;
 
+import br.com.heusser.custovidaservice.dao.core.DAOFactory;
+import br.com.heusser.custovidaservice.dao.pesquisacontrole.PesquisaControleDAO;
+
 public class PesquisaControle {
 
 	private int pesquisaControleid;
@@ -74,6 +77,10 @@ public class PesquisaControle {
 	}
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	public static PesquisaControle get(int pesquisacontroleid) {
+		PesquisaControleDAO dao = DAOFactory.getInstance().getPesquisaControleDAO();
+		return dao.get(pesquisacontroleid);
 	}
 	
 }

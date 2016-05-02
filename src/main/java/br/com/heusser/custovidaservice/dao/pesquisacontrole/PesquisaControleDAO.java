@@ -7,5 +7,7 @@ import br.com.heusser.custovidaservice.modelo.PesquisaControle;
 public interface PesquisaControleDAO {
 
 	public List<PesquisaControle> listar(int usuarioid);
+	
+	public PesquisaControle get(int pesquisacontroleid);
 
 }

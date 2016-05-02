@@ -23,7 +23,6 @@ public class MysqlPesquisaControleDAO implements PesquisaControleDAO {
 		try {
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(select);
-			//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			while (rs.next()) {
 				PesquisaControle p = new PesquisaControle();
 				p.setAberto(rs.getBoolean("aberto"));
@@ -56,5 +55,46 @@ public class MysqlPesquisaControleDAO implements PesquisaControleDAO {
 		}
 		return lista;
 	}
+
+	@Override
+	public PesquisaControle get(int pesquisacontroleid) {
+		Connection con = Conexao.get();
+		String select = "SELECT p.* FROM pesquisacontrole as p WHERE p.pesquisacontroleid = "+pesquisacontroleid;
+		PesquisaControle p = new PesquisaControle();
+		try {
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(select);
+			while (rs.next()) {
+				p.setAberto(rs.getBoolean("aberto"));
+				p.setAno(rs.getInt("ano"));
+				p.setDataEmissao(rs.getDate("dataEmissao"));
+				p.setDataEntrega(rs.getDate("dataEntrega"));
+				Fonte f = new Fonte();
+				f.setFonteid(rs.getInt("fonteid"));
+				p.setFonte(f);
+				p.setMes(rs.getInt("mes"));
+				p.setPesquisaControleid(rs.getInt("pesquisacontroleid"));
+				p.setSemana(rs.getInt("semana"));
+				p.setSemanal(rs.getBoolean("semanal"));
+				Usuario u = new Usuario();
+				u.setUsuarioid(rs.getInt("usuarioid"));
+				p.setUsuario(u);
+			}
+			rs.close();
+			st.close();
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return p;
+	}
+
+
 
 }
