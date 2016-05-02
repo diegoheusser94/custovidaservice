@@ -3,6 +3,7 @@ package br.com.heusser.custovidaservice.modelo;
 import java.util.List;
 
 import br.com.heusser.custovidaservice.dao.core.DAOFactory;
+import br.com.heusser.custovidaservice.dao.pesquisacontrole.PesquisaControleDAO;
 import br.com.heusser.custovidaservice.dao.usuario.UsuarioDAO;
 
 public class Usuario {
@@ -17,6 +18,11 @@ public class Usuario {
 	public static List<Usuario> listarPesquisadoresAtivos(){
 		UsuarioDAO dao = DAOFactory.getInstance().getUsuarioDAO();
 		return dao.listarPesquisadoresAtivos();
+	}
+	
+	public static List<PesquisaControle> listarPesquisaControles(int usuarioid) {
+		PesquisaControleDAO dao = DAOFactory.getInstance().getPesquisaControleDAO();
+		return dao.listar(usuarioid);
 	}
 	
 	public int getUsuarioid() {
@@ -55,5 +61,7 @@ public class Usuario {
 	public void setTipoUsuario(TipoUsuario tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
 	}
+
+
 	
 }
