@@ -97,5 +97,9 @@ public class Pesquisa {
 		PesquisaDAO dao = DAOFactory.getInstance().getPesquisaDAO();
 		return dao.listar(usuarioid, fonteid);
 	}
+	public int inserir() throws Exception {
+		PesquisaDAO dao = DAOFactory.getInstance().getPesquisaDAO();
+		return dao.inserir(this);
+	}
 	
 }

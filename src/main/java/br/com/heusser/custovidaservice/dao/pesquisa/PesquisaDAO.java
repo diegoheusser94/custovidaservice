@@ -8,4 +8,6 @@ public interface PesquisaDAO {
 
 	public List<Pesquisa> listar(int usuarioid, int fonteid);
 
+	public int inserir(Pesquisa pesquisa) throws Exception;
+
 }

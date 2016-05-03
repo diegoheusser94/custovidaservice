@@ -1,6 +1,8 @@
 package br.com.heusser.custovidaservice.dao.pesquisa;
 
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -68,6 +70,52 @@ public class MysqlPesquisaDAO implements PesquisaDAO {
 			}
 		}
 		return lista;
+	}
+
+	@Override
+	public int inserir(Pesquisa pesquisa) throws Exception {
+		Connection con = Conexao.get();
+		String insert = "INSERT INTO pesquisa (ano,data,especificacao,marca,mes,mudoumarca,semana,valorlido,fonteid,itemid,usuarioid) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+		PreparedStatement pst = con.prepareStatement(insert);
+		pst.setInt(1,pesquisa.getAno());
+		pst.setDate(2, new Date(pesquisa.getData().getTime()));
+		pst.setString(3,pesquisa.getEspecificacao());
+		pst.setString(4, pesquisa.getMarca());
+		pst.setInt(5, pesquisa.getMes());
+		pst.setBoolean(6, pesquisa.isMudouMarca());
+		pst.setInt(7, pesquisa.getSemana());
+		pst.setDouble(8, pesquisa.getValorLido());
+		pst.setInt(9,pesquisa.getFonte().getFonteid());
+		pst.setInt(10, pesquisa.getItem().getItemid());
+		pst.setInt(11, pesquisa.getUsuario().getUsuarioid());
+		pst.execute();
+		String query = "SELECT pesquisaid FROM pesquisa WHERE "
+				+ "ano = ? AND data = ? "
+				+ "AND especificacao = ? AND marca = ? "
+				+ "AND mes = ? AND mudoumarca = ? "
+				+ "AND semana = ? AND valorlido = ? "
+				+ "AND fonteid = ? AND itemid =? AND usuarioid = ?";
+		pst = con.prepareStatement(query);
+		pst.setInt(1,pesquisa.getAno());
+		pst.setDate(2, new Date(pesquisa.getData().getTime()));
+		pst.setString(3,pesquisa.getEspecificacao());
+		pst.setString(4, pesquisa.getMarca());
+		pst.setInt(5, pesquisa.getMes());
+		pst.setBoolean(6, pesquisa.isMudouMarca());
+		pst.setInt(7, pesquisa.getSemana());
+		pst.setDouble(8, pesquisa.getValorLido());
+		pst.setInt(9,pesquisa.getFonte().getFonteid());
+		pst.setInt(10, pesquisa.getItem().getItemid());
+		pst.setInt(11, pesquisa.getUsuario().getUsuarioid());
+		ResultSet rs = pst.executeQuery();
+		int id = -1;
+		while(rs.next()){
+			id = rs.getInt("pesquisaid");
+		}
+		rs.close();
+		pst.close();
+		con.close();
+		return id;
 	}
 
 }
