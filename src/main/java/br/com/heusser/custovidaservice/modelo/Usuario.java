@@ -25,6 +25,11 @@ public class Usuario {
 		return dao.listar(usuarioid);
 	}
 	
+	public void alterar() throws Exception {
+		UsuarioDAO dao = DAOFactory.getInstance().getUsuarioDAO();
+		dao.alterar(this);
+	}
+	
 	public int getUsuarioid() {
 		return usuarioid;
 	}
@@ -62,6 +67,4 @@ public class Usuario {
 		this.tipoUsuario = tipoUsuario;
 	}
 
-
-	
 }

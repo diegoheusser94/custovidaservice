@@ -1,6 +1,7 @@
 package br.com.heusser.custovidaservice.dao.usuario;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -29,6 +30,7 @@ public class MysqlUsuarioDAO implements UsuarioDAO {
 				u.setNick(rs.getString("nick"));
 				u.setNomeCompleto(rs.getString("nomeCompleto"));
 				u.setUsuarioid(rs.getInt("usuarioid"));
+				u.setSenha(rs.getString("senha"));
 				TipoUsuario	t = new TipoUsuario();
 				t.setDescricao(rs.getString("descricao"));
 				t.setTipoUsuarioid(rs.getInt("tipoUsuarioid"));
@@ -48,6 +50,21 @@ public class MysqlUsuarioDAO implements UsuarioDAO {
 			}
 		}
 		return lista;
+	}
+
+	@Override
+	public void alterar(Usuario u) throws Exception {
+		Connection con = Conexao.get();
+		String update = "UPDATE usuario SET nomecompleto = ?, nick = ?, senha = ?, ativo = ? WHERE usuarioid = ?";
+		PreparedStatement pst = con.prepareStatement(update);
+		pst.setString(1, u.getNomeCompleto());
+		pst.setString(2, u.getNick());
+		pst.setString(3, u.getSenha());
+		pst.setBoolean(4, u.isAtivo());
+		pst.setInt(5, u.getUsuarioid());
+		pst.executeUpdate();
+		pst.close();
+		con.close();
 	}
 
 }
