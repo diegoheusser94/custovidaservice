@@ -41,11 +41,11 @@ public class UsuarioService {
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response alterar(Usuario u){
 		try {
 			u.alterar();
-			return Response.ok(u, MediaType.APPLICATION_JSON).build();
+			return Response.ok("Alterado com sucesso", MediaType.TEXT_PLAIN).build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Response.serverError().build();

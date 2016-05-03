@@ -1,6 +1,8 @@
 package br.com.heusser.custovidaservice.dao.pesquisacontrole;
 
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,7 +19,8 @@ public class MysqlPesquisaControleDAO implements PesquisaControleDAO {
 	@Override
 	public List<PesquisaControle> listar(int usuarioid) {
 		Connection con = Conexao.get();
-		String select = "SELECT p.* FROM pesquisacontrole as p INNER JOIN usuario as u ON p.usuarioid = u.usuarioid WHERE p.aberto = 1 AND u.usuarioid = "+usuarioid;
+		String select = "SELECT p.* FROM pesquisacontrole as p INNER JOIN usuario as u ON p.usuarioid = u.usuarioid WHERE p.aberto = 1 AND u.usuarioid = "
+				+ usuarioid;
 		List<PesquisaControle> lista = new ArrayList<>();
 
 		try {
@@ -59,7 +62,7 @@ public class MysqlPesquisaControleDAO implements PesquisaControleDAO {
 	@Override
 	public PesquisaControle get(int pesquisacontroleid) {
 		Connection con = Conexao.get();
-		String select = "SELECT p.* FROM pesquisacontrole as p WHERE p.pesquisacontroleid = "+pesquisacontroleid;
+		String select = "SELECT p.* FROM pesquisacontrole as p WHERE p.pesquisacontroleid = " + pesquisacontroleid;
 		PesquisaControle p = new PesquisaControle();
 		try {
 			Statement st = con.createStatement();
@@ -95,6 +98,29 @@ public class MysqlPesquisaControleDAO implements PesquisaControleDAO {
 		return p;
 	}
 
-
+	@Override
+	public void alterar(PesquisaControle pesquisaControle) throws Exception {
+		Connection con = Conexao.get();
+		String update = "UPDATE pesquisacontrole SET aberto = ?, " + "ano = ?, dataemissao = ?, dataentrega = ?, "
+				+ "mes = ?, semana = ?, semanal = ?, fonteid = ?, " + "usuarioid = ? WHERE pesquisacontroleid = ?";
+		PreparedStatement pst = con.prepareStatement(update);
+		pst.setBoolean(1, pesquisaControle.isAberto());
+		pst.setInt(2, pesquisaControle.getAno());
+		pst.setDate(3, new Date(pesquisaControle.getDataEmissao().getTime()));
+		if (pesquisaControle.getDataEntrega() != null) {
+			pst.setDate(4, new Date(pesquisaControle.getDataEntrega().getTime()));
+		} else {
+			pst.setDate(4, null);
+		}
+		pst.setInt(5, pesquisaControle.getMes());
+		pst.setInt(6, pesquisaControle.getSemana());
+		pst.setBoolean(7, pesquisaControle.isSemanal());
+		pst.setInt(8, pesquisaControle.getFonte().getFonteid());
+		pst.setInt(9, pesquisaControle.getUsuario().getUsuarioid());
+		pst.setInt(10, pesquisaControle.getPesquisaControleid());
+		pst.executeUpdate();
+		pst.close();
+		con.close();
+	}
 
 }

@@ -10,4 +10,6 @@ public interface PesquisaControleDAO {
 	
 	public PesquisaControle get(int pesquisacontroleid);
 
+	public void alterar(PesquisaControle pesquisaControle) throws Exception;
+
 }

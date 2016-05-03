@@ -82,5 +82,9 @@ public class PesquisaControle {
 		PesquisaControleDAO dao = DAOFactory.getInstance().getPesquisaControleDAO();
 		return dao.get(pesquisacontroleid);
 	}
+	public void alterar() throws Exception {
+		PesquisaControleDAO dao = DAOFactory.getInstance().getPesquisaControleDAO();
+		dao.alterar(this);
+	}
 	
 }
